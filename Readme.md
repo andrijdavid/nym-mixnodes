@@ -1,3 +1,7 @@
+[![Docker Repository on Quay](https://quay.io/repository/andrijdavid/nym-mixnode/status "Docker Repository on Quay")](https://quay.io/repository/andrijdavid/nym-mixnode)
+![Docker build](https://github.com/andrijdavid/nym-mixnodes/actions/workflows/docker.yml/badge.svg)
+
+
 # Nym MixNode using docker
 
 
