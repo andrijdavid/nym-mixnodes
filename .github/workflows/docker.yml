@@ -9,6 +9,17 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Get latest NYM release
+        id: nym
+        uses: cardinalby/git-get-release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          repo: nymtech/nym
+          draft: false
+          prerelease: false
+          latest: true
+          releaseNameRegEx: '\sBinaries\s'
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -31,4 +42,7 @@ jobs:
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: quay.io/andrijdavid/nym-mixnode:latest
+          repository: quay.io/andrijdavid/nym-mixnode
+          tags: latest
+          builder-args: RUST_VER=1.68, VER=1.1.30-twix
+          
