@@ -48,5 +48,7 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: quay.io/andrijdavid/nym-mixnode:latest, quay.io/andrijdavid/nym-mixnode:${{ steps.split.outputs.fragment }}, quay.io/andrijdavid/nym-mixnode:${{ steps.nym.outputs.tag_name }}
-          build-args: RUST_VER=1.70, VER=${{ steps.split.outputs.fragment }}
+          build-args: |
+            RUST_VER=1.70
+            VER=${{ steps.split.outputs.fragment }}
           
