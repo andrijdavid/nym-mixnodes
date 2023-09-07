@@ -24,7 +24,7 @@ jobs:
         env:
           BRANCH: ${{ steps.nym.outputs.target_commitish }}
         id: split
-        run: echo "::set-output name=fragment::${BRANCH##*v}"
+        run: echo "fragment=${BRANCH##*v}" >> $GITHUB_OUTPUT
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -49,5 +49,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           repository: quay.io/andrijdavid/nym-mixnode
           tags: latest, ${{ steps.split.outputs.fragment }}, ${{ steps.nym.outputs.tag_name }}
-          builder-args: RUST_VER=1.69, VER=${{ steps.split.outputs.fragment }}
+          build-args: RUST_VER=1.70, VER=${{ steps.split.outputs.fragment }}
           
