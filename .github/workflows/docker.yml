@@ -46,7 +46,6 @@ jobs:
             tag: ${{ steps.split.outputs.fragment }}
       -
         name: Debugging
-        uses: alpine
         run: echo "${{ join(steps.image_exists.outputs.*, '\n') }}"
       -
         name: Set up QEMU
