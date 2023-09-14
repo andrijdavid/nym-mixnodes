@@ -47,12 +47,14 @@ jobs:
             tag: ${{ steps.split.outputs.fragment }}
       -
         name: Set up QEMU
+        if: steps.image_exists.outcome != 'success'
         uses: docker/setup-qemu-action@v2
         with:
           image: tonistiigi/binfmt:latest
           platforms: all
       -
         name: Set up Docker Buildx
+        if: steps.image_exists.outcome != 'success'
         uses: docker/setup-buildx-action@v2
       -
         name: Build and push
