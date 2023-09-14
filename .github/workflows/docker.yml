@@ -46,9 +46,6 @@ jobs:
             password: ${{ secrets.QUAYIO_TOKEN }}
             tag: ${{ steps.split.outputs.fragment }}
       -
-        name: Debugging
-        run: echo "${{ join(steps.image_exists.outputs.*, '\n') }}"; echo "conclusion ${{ steps.image_exists.conclusion }}"
-      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
@@ -59,6 +56,7 @@ jobs:
         uses: docker/setup-buildx-action@v2
       -
         name: Build and push
+        if: steps.image_exists.outcome != 'success'
         uses: docker/build-push-action@v4
         with:
           push: true
