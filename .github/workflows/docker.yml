@@ -23,7 +23,7 @@ jobs:
           releaseNameRegEx: '\sBinaries\s'
       - name: Split tag name and id
         env:
-          BRANCH: ${{ steps.nym.outputs.target_commitish }}
+          BRANCH: ${{ steps.nym.outputs.tag_name }}
         id: split
         run: echo "fragment=${BRANCH##*v}" >> $GITHUB_OUTPUT
       -
@@ -62,7 +62,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           tags: quay.io/andrijdavid/nym-mixnode:latest, quay.io/andrijdavid/nym-mixnode:${{ steps.split.outputs.fragment }}, quay.io/andrijdavid/nym-mixnode:${{ steps.nym.outputs.tag_name }}
           build-args: |
             RUST_VER=1.70
