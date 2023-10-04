@@ -5,7 +5,7 @@ ARG VER=1.1.0
 RUN apt update -qq  && apt install -qqy pkg-config build-essential libssl-dev curl jq git
 RUN rustup update && git clone https://github.com/nymtech/nym.git  /nym
 WORKDIR /nym 
-RUN git checkout release/v$VER && cargo build --release
+RUN git checkout $VER && cargo build --release
 
 FROM rust:${RUST_VER}-slim-${DEBIAN}
 RUN mkdir /nym && useradd -ms /bin/bash nym
