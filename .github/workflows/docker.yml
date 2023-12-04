@@ -28,14 +28,14 @@ jobs:
         run: echo "fragment=${BRANCH##*v}" >> $GITHUB_OUTPUT
       -
         name: Login to Quay.io
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: quay.io
           username: ${{ secrets.QUAYIO_USERNAME }}
           password: ${{ secrets.QUAYIO_TOKEN }}
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -66,9 +66,11 @@ jobs:
       -
         name: Build and push
         if: steps.image_exists.outcome != 'success'
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           push: true
+          load: true
+          sbom: true
           platforms: linux/amd64
           tags: quay.io/andrijdavid/nym-mixnode:latest, quay.io/andrijdavid/nym-mixnode:${{ steps.split.outputs.fragment }}, quay.io/andrijdavid/nym-mixnode:${{ steps.nym.outputs.tag_name }}, ghcr.io/andrijdavid/nym-mixnode:latest, ghcr.io/andrijdavid/nym-mixnode:${{ steps.split.outputs.fragment }}, ghcr.io/andrijdavid/nym-mixnode:${{ steps.nym.outputs.tag_name }}
           build-args: |
@@ -83,6 +85,7 @@ jobs:
         with:
           image: quay.io/andrijdavid/nym-mixnode:latest
           sarif: true
+          args: --file=Dockerfile --sarif-file-output=snyk.sarif
 
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
