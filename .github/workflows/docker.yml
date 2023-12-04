@@ -66,5 +66,5 @@ jobs:
           tags: quay.io/andrijdavid/nym-mixnode:latest, quay.io/andrijdavid/nym-mixnode:${{ steps.split.outputs.fragment }}, quay.io/andrijdavid/nym-mixnode:${{ steps.nym.outputs.tag_name }}
           build-args: |
             RUST_VER=1.70
-            VER=${{ steps.nym.outputs.target_commitish }}
+            VER=${{ steps.nym.outputs.tag_name }}
           
