@@ -1,5 +1,5 @@
-ARG RUST_VER=1.64
-ARG DEBIAN=buster
+ARG RUST_VER=1.74
+ARG DEBIAN=bookworm
 FROM rust:${RUST_VER}-slim-${DEBIAN} as build
 ARG VER=1.1.0
 RUN apt update -qq  && apt install -qqy pkg-config build-essential libssl-dev curl jq git

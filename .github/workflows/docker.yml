@@ -65,6 +65,6 @@ jobs:
           platforms: linux/amd64
           tags: quay.io/andrijdavid/nym-mixnode:latest, quay.io/andrijdavid/nym-mixnode:${{ steps.split.outputs.fragment }}, quay.io/andrijdavid/nym-mixnode:${{ steps.nym.outputs.tag_name }}
           build-args: |
-            RUST_VER=1.70
+            RUST_VER=1.74
             VER=${{ steps.nym.outputs.tag_name }}
           
