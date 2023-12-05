@@ -39,7 +39,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ github.token }}
+          password: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Check image tag exists
         id: image_exists
@@ -72,12 +72,14 @@ jobs:
           load: true
           sbom: true
           platforms: linux/amd64
-          tags: quay.io/andrijdavid/nym-mixnode:latest, quay.io/andrijdavid/nym-mixnode:${{ steps.split.outputs.fragment }}, quay.io/andrijdavid/nym-mixnode:${{ steps.nym.outputs.tag_name }}, ghcr.io/andrijdavid/nym-mixnode:latest, ghcr.io/andrijdavid/nym-mixnode:${{ steps.split.outputs.fragment }}, ghcr.io/andrijdavid/nym-mixnode:${{ steps.nym.outputs.tag_name }}
+          tags: quay.io/andrijdavid/nym-mixnode:latest, quay.io/andrijdavid/nym-mixnode:${{ steps.split.outputs.fragment }}, quay.io/andrijdavid/nym-mixnode:${{ steps.nym.outputs.tag_name }}
           build-args: |
             RUST_VER=1.74
             VER=${{ steps.nym.outputs.tag_name }}
 
       - name: Run Snyk to check Docker image for vulnerabilities
+        if: steps.image_exists.outcome != 'success'
+        id: snyk_scan
         continue-on-error: true
         uses: snyk/actions/docker@master
         env:
@@ -88,6 +90,7 @@ jobs:
           args: --file=Dockerfile --sarif-file-output=snyk.sarif
 
       - name: Upload result to GitHub Code Scanning
+        if: steps.snyk_scan.outcome == 'success'
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk.sarif
