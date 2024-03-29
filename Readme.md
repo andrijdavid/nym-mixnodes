@@ -11,7 +11,7 @@ Instruction to launch [Nym](https://nymtech.net/) mixnodes using docker.
 
 2- Enable ipv6 in docker, https://docs.docker.com/config/daemon/ipv6/
 
-3- Pull the docker image, `docker pull quay.io/andrijdavid/nym-mixnode:1.1.0`
+3- Pull the docker image, `docker pull quay.io/andrijdavid/nym-mixnode:latest`
 
 4- Create a directory `data` to store your configuration file and private keys. Make sure to backup those later. 
 
