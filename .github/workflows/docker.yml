@@ -69,8 +69,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          load: true
-          sbom: true
           platforms: linux/amd64
           tags: quay.io/andrijdavid/nym-mixnode:latest, quay.io/andrijdavid/nym-mixnode:${{ steps.split.outputs.fragment }}, quay.io/andrijdavid/nym-mixnode:${{ steps.nym.outputs.tag_name }}
           build-args: |
