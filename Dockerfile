@@ -12,16 +12,20 @@ FROM rust:${RUST_VER}-slim-${DEBIAN}
 
 RUN apt update -qq && apt install -qqy --no-install-recommends ca-certificates && rm -rf /var/lib/apt/lists/* && mkdir /nym && useradd -ms /bin/bash nym
 WORKDIR /home/nym
-COPY --from=build /nym/target/release/nym-mixnode /nym/
-COPY --from=build /nym/target/release/nym-node /nym/
-COPY --from=build /nym/target/release/nym-client /nym/
-COPY --from=build /nym/target/release/nym-socks5-client /nym/
-COPY --from=build /nym/target/release/nym-cli /nym/
 COPY --from=build /nym/target/release/nym-api /nym/
-COPY --from=build /nym/target/release/nymvisor /nym/
-COPY --from=build /nym/target/release/nym-gateway /nym/
+COPY --from=build /nym/target/release/nym-authenticator /nym/
+COPY --from=build /nym/target/release/nym-cli /nym/
+COPY --from=build /nym/target/release/nym-client /nym/
+COPY --from=build /nym/target/release/nym-credential-proxy /nym/
+COPY --from=build /nym/target/release/nym-data-observatory /nym/
+COPY --from=build /nym/target/release/nym-ip-packet-router /nym/
+COPY --from=build /nym/target/release/nym-node /nym/
+COPY --from=build /nym/target/release/nym-node-status-api /nym/
 COPY --from=build /nym/target/release/nym-network-requester /nym/
-COPY --from=build /nym/target/release/nym-network-statistics /nym/
+COPY --from=build /nym/target/release/nym-socks5-client /nym/
+COPY --from=build /nym/target/release/nym-validator-rewarder /nym/
+COPY --from=build /nym/target/release/nymvisor /nym/
+
 COPY --from=build /nym/target/release/nym-validator-rewarder /nym/
 USER nym
 VOLUME /home/nym/.nym/
