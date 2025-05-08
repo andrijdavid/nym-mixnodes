@@ -1,7 +1,7 @@
-ARG RUST_VER=1.84
+ARG RUST_VER=1.86
 ARG DEBIAN=bookworm
 FROM rust:${RUST_VER}-slim-${DEBIAN} as build
-ARG VER=1.1.1
+ARG VER=nym-binaries-v2025.8-tourist
 RUN apt update -qq  && apt install -qqy pkg-config build-essential libssl-dev curl jq git
 RUN rustup update && git clone https://github.com/nymtech/nym.git  /nym
 WORKDIR /nym 
@@ -17,7 +17,7 @@ COPY --from=build /nym/target/release/nym-authenticator /nym/
 COPY --from=build /nym/target/release/nym-cli /nym/
 COPY --from=build /nym/target/release/nym-client /nym/
 COPY --from=build /nym/target/release/nym-credential-proxy /nym/
-COPY --from=build /nym/target/release/nym-data-observatory /nym/
+# COPY --from=build /nym/target/release/nym-data-observatory /nym/
 COPY --from=build /nym/target/release/nym-ip-packet-router /nym/
 COPY --from=build /nym/target/release/nym-node /nym/
 COPY --from=build /nym/target/release/nym-node-status-api /nym/
