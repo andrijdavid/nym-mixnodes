@@ -23,6 +23,6 @@ Instruction to launch [Nym](https://nymtech.net/) mixnodes using docker.
 
 7- To run the node `docker run -p 1789:1789 -p 1790:1790 -p 8000:8000 -v $PWD/data:/home/nym/.nym --name nym-mixnode -d --restart always -it quay.io/andrijdavid/nym-mixnode:1.1.0 run --id <node_id>`
 
-THAT'S ALL FOLKS
+THAT'S ALL FOLKS :)
 
 NYM: n1lgkmc0msem75zxhx23ra0qe8tywevh3lreq7h5
