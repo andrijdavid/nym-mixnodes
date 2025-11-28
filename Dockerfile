@@ -1,4 +1,4 @@
-ARG RUST_VER=nightly
+ARG RUST_VER=1.86
 ARG DEBIAN=bookworm
 FROM rust:${RUST_VER}-slim-${DEBIAN} as build
 ARG VER=main
