@@ -78,7 +78,7 @@ jobs:
           platforms: linux/amd64
           tags: quay.io/andrijdavid/nym-mixnode:latest, quay.io/andrijdavid/nym-mixnode:${{ steps.nym.outputs.version }}, quay.io/andrijdavid/nym-mixnode:${{ steps.nym.outputs.tag }}
           build-args: |
-            RUST_VER=1.82
+            RUST_VER=nightly
             VER=${{ steps.nym.outputs.tag }}
 
       - name: Run Snyk to check Docker image for vulnerabilities
