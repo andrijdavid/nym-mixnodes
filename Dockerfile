@@ -1,8 +1,8 @@
 ARG RUST_VER=1.91.1
 ARG DEBIAN=bookworm
-FROM rust:${RUST_VER}-slim-${DEBIAN} as build
+FROM rust:${RUST_VER}-slim-${DEBIAN} AS build
 ARG VER=main
-RUN apt update -qq  && apt install -qqy pkg-config build-essential libssl-dev curl jq git protobuf-compiler cmake clang
+RUN apt update -qq  && apt install -qqy pkg-config build-essential libssl-dev libudev-dev libusb-1.0-0-dev curl jq git protobuf-compiler cmake clang
 RUN rustup update && \
     git clone --branch ${VER} --depth 1 https://github.com/nymtech/nym.git /nym
 WORKDIR /nym 
@@ -11,7 +11,7 @@ RUN cd /nym/tools/nym-cli && cargo build --release --locked
 
 FROM rust:${RUST_VER}-slim-${DEBIAN}
 
-RUN apt update -qq && apt install -qqy --no-install-recommends ca-certificates && rm -rf /var/lib/apt/lists/* && mkdir /nym && useradd -ms /bin/bash nym
+RUN apt update -qq && apt install -qqy --no-install-recommends ca-certificates libudev1 && rm -rf /var/lib/apt/lists/* && mkdir /nym && useradd -ms /bin/bash nym
 WORKDIR /home/nym
 COPY --from=build /nym/target/release/nym-* /nym/
 USER nym
