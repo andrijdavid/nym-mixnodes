@@ -1,13 +1,17 @@
 ARG RUST_VER=1.91.1
 ARG DEBIAN=bookworm
 FROM rust:${RUST_VER}-slim-${DEBIAN} AS build
-ARG VER=main
+ARG VER=release/2025.4-dorina
 RUN apt update -qq  && apt install -qqy pkg-config build-essential libssl-dev libudev-dev libusb-1.0-0-dev curl jq git protobuf-compiler cmake clang
 RUN rustup update && \
-    git clone --branch ${VER} --depth 1 https://github.com/nymtech/nym.git /nym
-WORKDIR /nym 
+    git clone --branch ${VER} https://github.com/nymtech/nym.git /nym
+WORKDIR /nym
+
+# Build the project following standard procedure
 RUN cargo build --release --workspace --locked
-RUN cd /nym/tools/nym-cli && cargo build --release --locked
+
+# Also build the CLI tools specifically
+RUN cd tools/nym-cli && cargo build --release --locked
 
 FROM rust:${RUST_VER}-slim-${DEBIAN}
 
