@@ -8,7 +8,7 @@ RUN rustup update && \
 WORKDIR /nym
 
 # Build the project following standard procedure
-RUN cargo build --release --workspace --locked
+RUN cargo build --release
 
 # Also build the CLI tools specifically
 RUN cd tools/nym-cli && cargo build --release --locked
